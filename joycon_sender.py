@@ -43,10 +43,10 @@ def main():
         phys_y = js.get_button(2)  # physical Y
 
         # Rotate clockwise: X->Y, Y->B, B->A, A->X
-        send_a = phys_b
-        send_b = phys_y
-        send_x = phys_a
-        send_y = phys_x
+        send_a = phys_x
+        send_b = phys_a
+        send_y = phys_b
+        send_x = phys_y
 
         pkt = {
             "lx": clamp(lx),
