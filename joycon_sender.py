@@ -35,20 +35,29 @@ def main():
         # Your mapping
         lx = dz(js.get_axis(0))             # left/right
         ly = dz(js.get_axis(1))             # up/down (up=-1)
-        a  = js.get_button(1)               # A
-        b  = js.get_button(3)               # B
-        x  = js.get_button(0)               # X
-        y  = js.get_button(2)               # Y
+
+        # Raw physical buttons (your discovered indices)
+        phys_a = js.get_button(1)  # physical A
+        phys_b = js.get_button(3)  # physical B
+        phys_x = js.get_button(0)  # physical X
+        phys_y = js.get_button(2)  # physical Y
+
+        # Rotate clockwise: X->Y, Y->B, B->A, A->X
+        send_a = phys_b
+        send_b = phys_y
+        send_x = phys_a
+        send_y = phys_x
 
         pkt = {
             "lx": clamp(lx),
             "ly": clamp(ly),
-            "a": int(a),
-            "b": int(b),
-            "x": int(x),
-            "y": int(y),
+            "a": int(send_a),
+            "b": int(send_b),
+            "x": int(send_x),
+            "y": int(send_y),
             "ts": time.time(),
         }
+
         sock.sendto(json.dumps(pkt).encode("utf-8"), (VM_IP, PORT))
         time.sleep(1.0 / HZ)
 
